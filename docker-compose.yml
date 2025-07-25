@@ -1,0 +1,116 @@
+version: '3.8'
+
+services:
+  
+  postgres:
+    image: postgres:15-alpine
+    container_name: todo-postgres
+    environment:
+      POSTGRES_DB: todoapp
+      POSTGRES_USER: todouser
+      POSTGRES_PASSWORD: todopass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - todo-network
+
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0
+    container_name: todo-keycloak
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
+      KC_DB_USERNAME: todouser
+      KC_DB_PASSWORD: todopass
+      KC_HOSTNAME_STRICT: false
+      KC_HTTP_ENABLED: true
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    command: start-dev
+    networks:
+      - todo-network
+
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: src/ApiGateway/Dockerfile
+    container_name: todo-api-gateway
+    ports:
+      - "5000:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Keycloak__Authority=http://keycloak:8080/realms/todo-realm
+      - TaskService__BaseUrl=http://task-service:80
+      - UserService__BaseUrl=http://user-service:80
+    depends_on:
+      - keycloak
+      - task-service
+      - user-service
+    networks:
+      - todo-network
+
+
+  task-service:
+    build:
+      context: .
+      dockerfile: src/Services/TaskService/Dockerfile
+    container_name: todo-task-service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=todoapp;Username=todouser;Password=todopass
+      - Keycloak__Authority=http://keycloak:8080/realms/todo-realm
+    depends_on:
+      - postgres
+      - keycloak
+    networks:
+      - todo-network
+
+
+  user-service:
+    build:
+      context: .
+      dockerfile: src/Services/UserService/Dockerfile
+    container_name: todo-user-service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=todoapp;Username=todouser;Password=todopass
+      - Keycloak__Authority=http://keycloak:8080/realms/todo-realm
+    depends_on:
+      - postgres
+      - keycloak
+    networks:
+      - todo-network
+
+
+  frontend:
+    build:
+      context: .
+      dockerfile: src/Frontend/Dockerfile
+    container_name: todo-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_BASE_URL=http://localhost:5000
+      - REACT_APP_KEYCLOAK_URL=http://localhost:8080
+      - REACT_APP_KEYCLOAK_REALM=todo-realm
+      - REACT_APP_KEYCLOAK_CLIENT_ID=todo-app
+    depends_on:
+      - api-gateway
+    networks:
+      - todo-network
+
+volumes:
+  postgres_data:
+
+networks:
+  todo-network:
+    driver: bridge

@@ -1,0 +1,13 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build and Start TODO App",
+			"type": "shell",
+			"command": "docker-compose up --build",
+			"group": "build",
+			"problemMatcher": [],
+			"isBackground": true
+		}
+	]
+}
