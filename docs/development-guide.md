@@ -175,3 +175,10 @@ For production deployment:
 4. Set up monitoring and logging
 5. Use production database with proper backups
 6. Configure reverse proxy/load balancer
+
+
+
+dotnet tool install --global dotnet-ef
+dotnet ef database update
+dotnet ef migrations add InitialCreate
+dotnet ef database update
