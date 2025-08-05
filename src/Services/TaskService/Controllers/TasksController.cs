@@ -17,26 +17,31 @@ public class TasksController : ControllerBase
     private readonly ITagRepository _tagRepository;
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
+    private readonly ILogger<TasksController> _logger;
 
     public TasksController(
         ITaskRepository taskRepository,
         ITagRepository tagRepository,
         IUserRepository userRepository,
-        IMapper mapper)
+        IMapper mapper,
+        ILogger<TasksController> logger)
     {
         _taskRepository = taskRepository;
         _tagRepository = tagRepository;
         _userRepository = userRepository;
         _mapper = mapper;
+        _logger = logger;
     }
 
     private async Task<Guid> GetUserIdAsync()
-    {
+    {        
         var keycloakUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        _logger.LogInformation("Retrieving user ID from claims {keycloakUserId}", keycloakUserId);
         if (string.IsNullOrEmpty(keycloakUserId))
             throw new UnauthorizedAccessException("User not authenticated");
 
         var user = await _userRepository.GetUserByKeycloakIdAsync(keycloakUserId);
+        _logger.LogInformation("Retrieved user {UserId} from Keycloak ID {KeycloakUserId}", user?.Id, keycloakUserId);
         if (user == null)
             throw new UnauthorizedAccessException("User not found");
 
@@ -52,6 +57,7 @@ public class TasksController : ControllerBase
         try
         {
             var userId = await GetUserIdAsync();
+            _logger.LogInformation("Retrieving tasks for user {UserId}", userId);
             var tasks = await _taskRepository.GetTasksByUserIdAsync(userId, category, tag, isCompleted);
             var taskResponses = _mapper.Map<List<TaskResponse>>(tasks);
             
