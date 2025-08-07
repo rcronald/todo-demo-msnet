@@ -30,6 +30,9 @@ CREATE TABLE users (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
+INSERT INTO users (keycloak_user_id, username, email) VALUES
+    ('1e06267e-604c-48a3-83cd-7d07a5415ac7', 'test', 'test@example.com');
+
 -- Create Tasks table
 CREATE TABLE tasks (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),

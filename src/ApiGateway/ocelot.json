@@ -6,7 +6,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "task-service",
-          "Port": 80
+          "Port": 8080
         }
       ],
       "UpstreamPathTemplate": "/api/tasks/{everything}",
@@ -22,7 +22,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "task-service",
-          "Port": 80
+          "Port": 8080
         }
       ],
       "UpstreamPathTemplate": "/api/categories/{everything}",
@@ -38,7 +38,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "task-service",
-          "Port": 80
+          "Port": 8080
         }
       ],
       "UpstreamPathTemplate": "/api/tags/{everything}",
@@ -54,7 +54,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "user-service",
-          "Port": 80
+          "Port": 8080
         }
       ],
       "UpstreamPathTemplate": "/api/users/{everything}",
@@ -66,6 +66,6 @@
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:5000"
+    "BaseUrl": "http://localhost:9090"
   }
 }

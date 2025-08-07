@@ -60,7 +60,7 @@ public class TasksController : ControllerBase
             _logger.LogInformation("Retrieving tasks for user {UserId}", userId);
             var tasks = await _taskRepository.GetTasksByUserIdAsync(userId, category, tag, isCompleted);
             var taskResponses = _mapper.Map<List<TaskResponse>>(tasks);
-            
+
             return Ok(ApiResponse<List<TaskResponse>>.SuccessResult(taskResponses));
         }
         catch (UnauthorizedAccessException ex)

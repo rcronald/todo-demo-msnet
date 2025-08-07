@@ -45,12 +45,12 @@ services:
       dockerfile: src/ApiGateway/Dockerfile
     container_name: todo-api-gateway
     ports:
-      - "5000:80"
+      - "9090:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - Keycloak__Authority=http://keycloak:8080/realms/todo-realm
-      - TaskService__BaseUrl=http://task-service:80
-      - UserService__BaseUrl=http://user-service:80
+      - TaskService__BaseUrl=http://task-service:8080
+      - UserService__BaseUrl=http://user-service:8080
     depends_on:
       - keycloak
       - task-service
@@ -68,6 +68,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=postgres;Database=todoapp;Username=todouser;Password=todopass
       - Keycloak__Authority=http://keycloak:8080/realms/todo-realm
+    ports:
+      - "9091:8080"
     depends_on:
       - postgres
       - keycloak
@@ -84,6 +86,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=postgres;Database=todoapp;Username=todouser;Password=todopass
       - Keycloak__Authority=http://keycloak:8080/realms/todo-realm
+    ports:
+      - "9092:8080"
     depends_on:
       - postgres
       - keycloak

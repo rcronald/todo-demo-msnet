@@ -16,20 +16,24 @@ public class TagsController : ControllerBase
     private readonly ITagRepository _tagRepository;
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
+    private readonly ILogger<TagsController> _logger;
 
     public TagsController(
         ITagRepository tagRepository,
         IUserRepository userRepository,
-        IMapper mapper)
+        IMapper mapper,
+        ILogger<TagsController> logger)
     {
         _tagRepository = tagRepository;
         _userRepository = userRepository;
         _mapper = mapper;
+        _logger = logger;
     }
 
     private async Task<Guid> GetUserIdAsync()
     {
         var keycloakUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        _logger.LogInformation("Retrieving user ID from claims {keycloakUserId}", keycloakUserId);
         if (string.IsNullOrEmpty(keycloakUserId))
             throw new UnauthorizedAccessException("User not authenticated");
 
@@ -46,6 +50,7 @@ public class TagsController : ControllerBase
         try
         {
             var userId = await GetUserIdAsync();
+            _logger.LogInformation("Retrieving tags for user {UserId}", userId);
             var tags = await _tagRepository.GetTagsByUserIdAsync(userId);
             var tagResponses = _mapper.Map<List<TagResponse>>(tags);
             

@@ -140,3 +140,13 @@ npm start
 - `GET /api/tags` - Retrieve user's tags
 - `POST /api/tags` - Create new tag
 
+
+### .NET Commands
+
+- `dotnet --list-sdks` - List installed .NET SDKs
+- `dotnet --list-runtimes` - List installed .NET runtimes
+
+Entity Framework Core commands:
+- `dotnet ef migrations add <MigrationName>` - Create a new migration
+- `dotnet ef database update` - Apply pending migrations
+- `dotnet ef database drop` - Drop the database
