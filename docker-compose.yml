@@ -103,7 +103,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - REACT_APP_API_BASE_URL=http://localhost:5000
+      - REACT_APP_API_BASE_URL=http://localhost:9090
       - REACT_APP_KEYCLOAK_URL=http://localhost:8080
       - REACT_APP_KEYCLOAK_REALM=todo-realm
       - REACT_APP_KEYCLOAK_CLIENT_ID=todo-app

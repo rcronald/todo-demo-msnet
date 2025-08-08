@@ -10,6 +10,7 @@ builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange
 
 // Add services to the container.
 builder.Services.AddControllers();
+//builder.Services.AddControllers().AddDapr();
 
 // Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -20,9 +21,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         options.RequireHttpsMetadata = false; // For development only
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuer = true,
+            ValidateIssuer = false,
             ValidateAudience = false,
-            ValidateLifetime = true,
+            ValidateLifetime = false,
             ValidateIssuerSigningKey = true
         };
     });
@@ -33,11 +34,10 @@ builder.Services.AddCors(options =>
   options.AddPolicy("AllowFrontend",
       policy =>
       {
-        //policy.WithOrigins("http://localhost:3000")
-        policy.AllowAnyOrigin()
+        policy.WithOrigins("http://localhost:3000")
                 .AllowAnyHeader()
-                .AllowAnyMethod();
-        //        .AllowCredentials();
+                .AllowAnyMethod()
+                .AllowCredentials();
       });
 });
 

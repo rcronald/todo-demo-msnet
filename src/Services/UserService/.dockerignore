@@ -1,0 +1,138 @@
+# Build outputs
+**/bin/
+**/obj/
+**/out/
+
+# Visual Studio files
+**/.vs/
+**/*.user
+**/*.suo
+**/*.userosscache
+**/*.sln.docstates
+**/.vscode/
+**/*.swp
+**/*.swo
+
+# Build results
+**/[Dd]ebug/
+**/[Dd]ebugPublic/
+**/[Rr]elease/
+**/[Rr]eleases/
+**/x64/
+**/x86/
+**/build/
+**/bld/
+**/[Bb]in/
+**/[Oo]bj/
+
+# MSTest test Results
+**/[Tt]est[Rr]esult*/
+**/[Bb]uild[Ll]og.*
+
+# .NET Core
+**/project.lock.json
+**/project.fragment.lock.json
+**/artifacts/
+**/*.tmp_proj
+
+# NuGet
+**/packages/
+**/*.nuget.props
+**/*.nuget.targets
+
+# Entity Framework Migrations (if any)
+**/Migrations/
+
+# User-specific files
+**/*.rsuser
+**/*.suo
+**/*.user
+**/*.userosscache
+**/*.sln.docstates
+
+# Mono auto generated files
+**/mono_crash.*
+
+# Logs
+**/logs/
+**/*.log
+
+# Runtime data
+**/pids
+**/*.pid
+**/*.seed
+**/*.pid.lock
+
+# Coverage reports
+**/coverage/
+**/*.lcov
+**/TestResults/
+
+# Dependency directories
+**/node_modules/
+**/wwwroot/node_modules/
+
+# IDE files
+**/.idea/
+**/*.swp
+**/*.swo
+**/*~
+
+# OS generated files
+**/.DS_Store
+**/.DS_Store?
+**/._*
+**/.Spotlight-V100
+**/.Trashes
+**/ehthumbs.db
+**/Thumbs.db
+
+# Git
+**/.git/
+**/.gitignore
+**/.gitattributes
+
+# Docker
+**/.dockerignore
+**/Dockerfile*
+**/docker-compose*
+**/Docker*
+
+# CI/CD
+**/.github/
+**/.azure/
+**/azure-pipelines.yml
+**/.travis.yml
+**/appveyor.yml
+
+# Documentation
+**/README.md
+**/LICENSE
+**/*.md
+
+# Environment files
+**/.env*
+**/appsettings.local.json
+**/appsettings.*.local.json
+
+# Temporary files
+**/tmp/
+**/temp/
+**/*.tmp
+**/*.temp
+
+# Backup files
+**/*.bak
+**/*.backup
+
+# JetBrains Rider
+**/.idea/
+**/*.sln.iml
+
+# Azure Functions
+**/local.settings.json
+
+# Azurite
+**/__blobstorage__/
+**/__queuestorage__/
+**/__azurite_db*__.json

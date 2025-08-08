@@ -6,7 +6,9 @@ export const taskService = {
     const params = new URLSearchParams();
     if (filters.category) params.append('category', filters.category);
     if (filters.tag) params.append('tag', filters.tag);
-    if (filters.isCompleted !== undefined) params.append('isCompleted', filters.isCompleted);
+    if (filters.isCompleted !== undefined && filters.isCompleted !== null) params.append('isCompleted', filters.isCompleted);
+
+    console.log('Fetching tasks with filters:', params.toString());
     
     const response = await api.get(`/api/tasks?${params}`);
     return response.data;
